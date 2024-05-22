@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git url: 'https://github.com/visala21/NewGithubRepository.git', branch: 'main'
+            }
+        }
+        stage('Build') {
+            steps {
+                script {
+                    sh 'mvn clean package'
+                }
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+        success {
+            echo 'This will run only the build sucess'
+            //Add any post build acctions here 
+        }
+        failure {
+            echo 'This will run only the build fails'
+            //Add any failure actions here 
+        }
+    }
+}
