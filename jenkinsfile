@@ -1,22 +1,29 @@
 pipeline {
     agent any
 
+    environment {
+        //Defining the Environment variable of Maven
+        Maven_Home = "C:\\Users\\Dell3580\\Downloads\\apache-maven-3.9.6-bin\\apache-maven-3.9.6"
+    }
+
     stages {
-        stage('Clone Repository') {
+        stage('Checkout') {
             steps {
+                // Cloning the Repository
                 git url: 'https://github.com/visala21/NewGithubRepository.git', branch: 'main'
             }
         }
         stage('Build') {
             steps {
-                script {
-                    sh 'mvn clean package'
-                }
+                //Using Maven to build the Project
+                bat "${env.MAVEN_HOME}bin\\mvn\\ clean compile"
             }
         }
     }
+        
     post {
         always {
+            // Clean up
             cleanWs()
         }
         success {
